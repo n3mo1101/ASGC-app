@@ -1,67 +1,111 @@
 ﻿using System;
 using System.Linq;
 
-class StudentRecord
+namespace ASGC_APP
 {
-    public List<int> Assignment = new List<int>();
-    public List<int> Quizzes = new List<int>();
-    public int FinalExam = new int();
-
-    public StudentRecord(List<int> assignment, List<int> quizzes, int finalExam)
+    class Program
     {
-        Assignment = assignment;
-        Quizzes = quizzes;
-        FinalExam = finalExam;
-    }
-}
-
-
-
-class ASGC
-{
-
-    static void Main(string[] args)
-    {
-        Dictionary<string, StudentRecord> Grades = new Dictionary<string, StudentRecord>();
-
-        Console.WriteLine("Enter student's name");
-        string name = Console.ReadLine();
-
-        Console.WriteLine("How many assingments to compute?");
-        int Assnum = int.Parse(Console.ReadLine());
-
-        List<int> assignment = new List<int>();
-        for (int i = 1; i <= Assnum; i++)
+        static void Main(string[] args)
         {
-            Console.WriteLine($"Enter score for Assignment no.{i}: ");
-            assignment.Add(int.Parse(Console.ReadLine()));
+            Dictionary<string, StudentRecord> Records = new Dictionary<string, StudentRecord>();
+
+            Console.Write("Enter student name: ");
+            string studentName = Console.ReadLine();
+
+            Console.Write("\nNumber of assignments to compute? ");
+            int assignNumber = int.Parse(Console.ReadLine());
+
+            List<int> assignment = new List<int>();
+            for (int i = 1; i <= assignNumber; i++)
+            {
+                Console.Write($"Score for Assignment No.{i}: ");
+                assignment.Add(int.Parse(Console.ReadLine()));
+            }
+
+            Console.Write("\nNumber of quizzes to compute? ");
+            int quizNumber = int.Parse(Console.ReadLine());
+
+            List<int> quizzes = new List<int>();
+            for (int i = 1; i <= quizNumber; i++)
+            {
+                Console.Write($"Score for Quiz No.{i}: ");
+                quizzes.Add(int.Parse(Console.ReadLine()));
+            }
+
+            Console.Write("\nScore for Final Exam: ");
+            int Final_Exam = int.Parse(Console.ReadLine());
+
+            StudentRecord student = new StudentRecord(assignment, quizzes, Final_Exam);
+            Records[studentName] = student;
+
+            DisplayReport(Records, studentName);
+
+            Console.ReadKey();
         }
 
-        Console.WriteLine("How many quizzes to compute?");
-        int Quiznum = int.Parse(Console.ReadLine());
-
-        List<int> quizzes = new List<int>();
-        for (int i = 1; i <= Quiznum; i++)
+        class StudentRecord
         {
-            Console.WriteLine($"Enter score for Quiz no.{i}: ");
-            quizzes.Add(int.Parse(Console.ReadLine()));
+            public List<int> Assignment = new List<int>();
+            public List<int> Quizzes = new List<int>();
+            public int FinalExam = new int();
+
+            public StudentRecord(List<int> assignment, List<int> quizzes, int finalExam)
+            {
+                Assignment = assignment;
+                Quizzes = quizzes;
+                FinalExam = finalExam;
+            }
         }
 
-        Console.WriteLine("Enter score for Final Exam: ");
-        int Final_Exam = int.Parse(Console.ReadLine());
+        static double Calculate_Average(StudentRecord studentScores)
+        {
+            double assignAverage = studentScores.Assignment.Average() * 0.3;
+            double quizAverage = studentScores.Quizzes.Average() * 0.3;
+            double finalAverage = studentScores.FinalExam * 0.4;
 
-        StudentRecord student = new StudentRecord(assignment, quizzes, Final_Exam);
-        Grades[name] = student;
+            double weighted_Average = assignAverage + quizAverage + finalAverage;
+            return weighted_Average;
+        }
 
-    }
+        static char GetGrade(double average)
+        {
+            if (average >= 90)
+                    return 'A';
+                else if (average >= 80)
+                    return 'B';
+                else if (average >= 70)
+                    return 'C';
+                else if (average >= 60)
+                    return 'D';
+                else
+                    return 'F';
+        }
 
-    static double Calculate_Average(StudentRecord student_Grade)
-    {
-        double AssingmentWeight = student_Grade.Assignment.Average() * 0.3;
-        double QuizWeight = student_Grade.Quizzes.Average() * 0.3;
-        double FinalExam_Weight = student_Grade.FinalExam * 0.4;
+        static void DisplayReport(Dictionary<string, StudentRecord> scores, string studentName)
+        {
+                StudentRecord student = scores[studentName];
+                double average = Calculate_Average(student);
+                char grade = GetGrade(average);
 
-        double weighted_Average = AssingmentWeight + QuizWeight + FinalExam_Weight;
-        return weighted_Average;
+                Console.WriteLine("\n---[Student Report Card]---");
+                Console.WriteLine($"\nStudent Name: {studentName}");
+
+                Console.WriteLine("\nList of Scores | Assignments");
+
+                int i = 1, j = 1;
+                foreach (var score in student.Assignment)
+                    Console.WriteLine($"Assignment No.{i}: {score}", i++);
+
+                Console.WriteLine("\nList of Scores | Quizzes");
+
+                foreach (var score in student.Quizzes)
+                    Console.WriteLine($"Quiz No.{j} : {score}", j++);
+
+                Console.WriteLine($"\nFinal Exam: {student.FinalExam}");
+                Console.WriteLine($"Weighted Average: {Math.Round(average, 2)}");
+
+                Console.WriteLine($"\nGrade: {grade}");
+                Console.WriteLine("----------------------------");
+        }
     }
 }
