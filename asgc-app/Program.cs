@@ -105,7 +105,6 @@ namespace ASGC_APP
                 Console.WriteLine($"Weighted Average: {Math.Round(average, 2)}");
 
                 Console.WriteLine($"\nGrade: {grade}");
-                Console.WriteLine("----------------------------");
         }
     }
 }
