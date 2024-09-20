@@ -81,9 +81,9 @@ namespace ASGC_APP
                     return 'F';
         }
 
-        static void DisplayReport(Dictionary<string, StudentRecord> scores, string studentName)
+        static void DisplayReport(Dictionary<string, StudentRecord> Records, string studentName)
         {
-                StudentRecord student = scores[studentName];
+                StudentRecord student = Records[studentName];
                 double average = Calculate_Average(student);
                 char grade = GetGrade(average);
 
