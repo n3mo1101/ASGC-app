@@ -18,10 +18,10 @@ namespace ASGC_APP
             List<(int score, int maxScore)> assignments = new List<(int, int)>();
             for (int i = 1; i <= assignNumber; i++)
             {
-                Console.Write($"Score for Assignment No.{i}: ");
+                Console.Write($"Assign no.{i} score: ");
                 int score = int.Parse(Console.ReadLine());
 
-                Console.Write($"Max score for Assignment No.{i}: ");
+                Console.Write($"Assign no.{i} max score: ");
                 int maxScore = int.Parse(Console.ReadLine());
 
                 assignments.Add((score, maxScore));
@@ -33,10 +33,10 @@ namespace ASGC_APP
             List<(int score, int maxScore)> quizzes = new List<(int, int)>();
             for (int i = 1; i <= quizNumber; i++)
             {
-                Console.Write($"Score for Quiz No.{i}: ");
+                Console.Write($"Quiz no.{i} score: ");
                 int score = int.Parse(Console.ReadLine());
 
-                Console.Write($"Max score for Quiz No.{i}: ");
+                Console.Write($"Quiz no.{i} max score: ");
                 int maxScore = int.Parse(Console.ReadLine());
 
                 quizzes.Add((score, maxScore));
